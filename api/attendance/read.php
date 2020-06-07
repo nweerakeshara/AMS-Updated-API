@@ -11,7 +11,8 @@
 
     $post = new Post($db);
     $post -> searchInput = isset($_GET['searchInput']) ? $_GET['searchInput'] : die();
-    $post -> searchClock = isset($_GET['searchClock']) ? $_GET['searchClock'] : die();
+    $post -> searchClock1 = isset($_GET['searchClock1']) ? $_GET['searchClock1'] : die();
+    $post -> searchClock2 = isset($_GET['searchClock2']) ? $_GET['searchClock2'] : die();
 
     $result = $post->readbranch();
 

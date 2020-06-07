@@ -23,13 +23,14 @@
        
 
         public function readbranch(){
-            $query = 'SELECT DISTINCT o.userId, o.userName, o.branchName, e.deptName, CAST(o.dateo AS DATE) as dateo, DATE_ADD(o.clockIn, INTERVAL -330 MINUTE) as clockIn, DATE_ADD(o.clockOut, INTERVAL -330 MINUTE) as clockOut ,o.otHours as OT_or_LC_hrs from employees e, ottable o where o.userId = (select e.userId where e.branchName = ?) and o.branchname = ? and o.dateo like ? Order by o.dateo ';
+            $query = 'SELECT DISTINCT o.userId, o.userName, o.branchName, e.deptName, CAST(o.dateo AS DATE) as dateo, DATE_ADD(o.clockIn, INTERVAL -330 MINUTE) as clockIn, DATE_ADD(o.clockOut, INTERVAL -330 MINUTE) as clockOut ,o.otHours as OT_or_LC_hrs from employees e, ottable o where o.userId = (select e.userId where e.branchName = ?) and o.branchname = ? and Date(o.dateo) between ? and ? Order by o.dateo ';
 
 
             $statement = $this->conn->prepare($query);
             $statement-> bindParam(1, $this->searchInput);
             $statement-> bindParam(2, $this->searchInput);
-            $statement-> bindParam(3, $this->searchClock);
+            $statement-> bindParam(3, $this->searchClock1);
+            $statement-> bindParam(4, $this->searchClock2);
             $statement->execute();
             
             return $statement;

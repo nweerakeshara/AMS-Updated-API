@@ -23,13 +23,14 @@
 
 
         public function readbranch(){
-            $query = 'Select DISTINCT a.userId, a.userName, a.branchName, e.deptName,  DATE_ADD(a.clock, INTERVAL -330 MINUTE) as clock, a.remarks from Employees e, Attendance a where a.userId = (select e.userId where e.branchName = ?) and a.branchname = ? and a.clock like ? Order by a.userId';
+            $query = 'SELECT DISTINCT a.userId, a.userName, a.branchName, e.deptName,  DATE_ADD(a.clock, INTERVAL -330 MINUTE) as clock, a.remarks from Employees e, Attendance a where a.userId = (select e.userId where e.branchName = ?) and a.branchname = ? and Date(a.clock) between ? and ?  Order by a.userId';
            
 
             $statement = $this->conn->prepare($query);
             $statement-> bindParam(1, $this->searchInput);
             $statement-> bindParam(2, $this->searchInput);
-            $statement-> bindParam(3, $this->searchClock);
+            $statement-> bindParam(3, $this->searchClock1);
+            $statement-> bindParam(4, $this->searchClock2);
             $statement->execute();
             
             return $statement;
